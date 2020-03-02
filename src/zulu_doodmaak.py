@@ -1,0 +1,749 @@
+import random
+from typing import List, Iterator
+
+import pygame
+import json
+
+from src import core
+
+
+def hex2rgb(h):
+    h = h.lstrip("#")
+    if len(h) == 3:
+        return tuple(int(h[i:i + 1] * 2, 16) for i in (0, 1, 2))
+    elif len(h) == 6:
+        return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+class Button(core.Drawing, core.UI):
+    is_hover: bool = False
+
+    def __init__(self, game):
+        super().__init__(game)
+        self.surface = pygame.Surface((100, 100))
+        self.color = hex2rgb("#ccc")
+        self.hover_color = hex2rgb("#bbb")
+        self.rect = self.surface.get_rect()
+        self.rect.bottom = self.game.camera.bottom
+
+    def process(self, delta: float) -> None:
+        if self.is_hover:
+            self.surface.fill(self.hover_color)
+        else:
+            self.surface.fill(self.color)
+        self.draw()
+
+    def on_click(self):
+        Lancer(self.game, self.game.player)
+
+    def event(self, event) -> None:
+        if event.type == pygame.MOUSEMOTION:
+            if self.rect.collidepoint(self.game.mouse_coord):
+                self.is_hover = True
+            else:
+                self.is_hover = False
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                if self.is_hover:
+                    self.on_click()
+
+
+COLLECTED_TYPES = {
+    'wood': 0,
+    'food': 1,
+    'stone': 2
+}
+
+
+class Field(core.Sprite):
+    fields = ['field_1', 'field_2']
+
+    def __init__(self, game, left, top):
+        super().__init__(game)
+        self.set_animation(random.choice(self.fields))
+        self.rect.x = self.rect.width * left
+        self.rect.y = self.rect.height * top
+
+    def process(self, delta: float) -> None:
+        self.draw()
+
+
+class Accessible(core.Drawing):
+
+    def stop_access(self):
+        pass
+
+
+class Flammable(core.Drawing):
+    is_burning: bool = False
+    burning_time: int = 0
+
+    def __init__(self, game, left=0, top=0):
+        super().__init__(game, left, top)
+        self.fire = core.Sprite(self.game)
+        self.fire.rect = self.rect
+        self.fire.set_animation('fire')
+
+    def process(self, delta: float) -> None:
+        if self.is_burning:
+            self.burning_time += delta
+            self.fire.draw()
+
+
+class Collected(core.Sprite, Accessible):
+    not_collected_animations: List[str]
+    not_collected_animation: str
+
+    collected_animations: List[str]
+    collected_animation: str
+
+    is_collected: bool = False
+    is_collecting: bool = False
+
+    material: int
+    collecting_time: int
+    recovery_time: int
+    left_for_recover: int = 0
+    left_for_collect: int = 0
+    collector = None
+    amount: int
+
+    def __init__(self, game: core.Game, left=0, top=0):
+        super().__init__(game, left, top)
+        self.not_collected_animation = random.choice(self.not_collected_animations)
+        self.collected_animation = random.choice(self.collected_animations)
+        self.recover()
+
+    def recover(self):
+        self.is_collected = False
+        self.set_animation(self.not_collected_animation)
+
+    def collect(self):
+        self.is_collected = True
+        self.stop_collect()
+        self.set_animation(self.collected_animation)
+
+    def start_collect(self, collector) -> bool:
+        if self.is_collected or self.is_collecting:
+            return False
+        self.is_collecting = True
+        self.left_for_collect = self.collecting_time
+        self.collector = collector
+        return True
+
+    def stop_access(self):
+        self.stop_collect()
+
+    def stop_collect(self):
+        self.is_collecting = False
+        self.left_for_recover = self.recovery_time
+
+    def process(self, delta: float) -> None:
+        if self.is_collecting:
+            self.left_for_collect -= delta
+            if self.left_for_collect <= 0:
+                self.collect()
+        elif self.is_collected:
+            self.left_for_recover -= delta
+            if self.left_for_recover <= 0:
+                self.recover()
+        self.draw()
+
+
+class Stone(Collected):
+    recovery_time: int = 45 * 1000
+    material = COLLECTED_TYPES['stone']
+    collecting_time: int = 6 * 1000
+    amount = 3
+    not_collected_animations = ['stone_1', 'stone_2']
+    collected_animations = ['stone_clear']
+
+    def __init__(self, game, left=0, top=0):
+        super().__init__(game, left, top)
+
+
+class FoodField(Collected):
+    recovery_time: int = 45 * 1000
+    material = COLLECTED_TYPES['food']
+
+    def __init__(self, game, left=0, top=0):
+        super().__init__(game, left, top)
+
+
+class SmallFoodField(FoodField):
+    collecting_time: int = 6 * 1000
+    amount = 3
+    not_collected_animations = ['food_field_1']
+    collected_animations = ['harvested_food_field_1']
+
+
+class BigFoodField(FoodField):
+    collecting_time: int = 8 * 1000
+    amount = 5
+    not_collected_animations = ['food_field_2']
+    collected_animations = ['harvested_food_field_2']
+
+
+class Tree(Collected, Flammable):
+    recovery_time: int = 45 * 1000
+    collected_animations = ['stump']
+    material = COLLECTED_TYPES['wood']
+
+    def process(self, delta: float) -> None:
+        self.draw()
+        if self.burning_time >= 5000:
+            self.collect()
+            self.burning_time = 0
+            self.is_burning = False
+        Collected.process(self, delta)
+        Flammable.process(self, delta)
+
+
+class SmallTree(Tree):
+    collecting_time: int = 6 * 1000
+    amount = 3
+    not_collected_animations = ['tree_1', 'tree_3']
+
+
+class BigTree(Tree):
+    collecting_time: int = 8 * 1000
+    amount = 5
+    not_collected_animations = ['tree_2', 'tree_4']
+
+
+class Player(core.Object):
+    is_defeated: bool = False
+
+    def __init__(self, game, color):
+        super().__init__(game)
+        self.king: King = None
+        self.units: List['Unit'] = []
+        self.color: str = color
+
+    def add_unit(self, unit: 'Unit'):
+        self.units.append(unit)
+        if isinstance(unit, King):
+            self.king = unit
+
+    def process(self, delta: float) -> None:
+        if self.is_defeated:
+            return
+        if self.king and self.king.hp <= 0:
+            self.is_defeated = True
+
+
+class Bot(Player):
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.is_defeated:
+            return
+        for unit in self.units:
+            if isinstance(unit, Slave) and unit.goal is None:
+                md = -1
+                mcol = None
+                for collected in self.game.game_objects:
+                    if isinstance(collected,
+                                  Collected) and collected.is_collecting == False and not collected.is_collected:
+                        d = unit.rect.get_distance(collected.rect)
+                        if (md == -1 or d < md) and d < 200:
+                            md = d
+                            mcol = collected
+                if mcol:
+                    unit.set_goal(mcol)
+            elif isinstance(unit, Lancer) and unit.goal is None:
+                md = -1
+                mcol = None
+                for enemy in self.game.game_objects:
+                    if isinstance(enemy,
+                                  Unit) and enemy.player != self and enemy.hp > 0:
+                        d = unit.rect.get_distance(enemy.rect)
+                        if (md == -1 or d < md) and d < 100:
+                            md = d
+                            mcol = enemy
+                if mcol:
+                    unit.set_goal(mcol)
+
+
+class Selectable(core.Drawing):
+    is_selected: bool
+
+    def __init__(self, game, left=0, top=0):
+        super().__init__(game, left, top)
+        self.hp_panel = core.Drawing(self.game)
+
+    def process(self, delta: float) -> None:
+        self.hp_panel.surface = pygame.Surface((self.rect.w, 5))
+        self.hp_panel.rect = self.rect.copy()
+        self.hp_panel.rect.size = self.hp_panel.surface.get_size()
+        self.hp_panel.rect.y -= 10
+        if self.is_selected:
+            self.hp_panel.surface.fill((255, 0, 0))
+            pygame.draw.rect(self.hp_panel.surface, (0, 255, 0),
+                             (0, 0, self.hp / self.max_hp * self.hp_panel.rect.w, 5))
+            self.hp_panel.draw()
+
+
+class Unit(core.Sprite, Accessible, Selectable):
+    hp: int
+
+    def __init__(self, game, player: Player, unit_type, speed, max_hp, left=0, top=0):
+        super().__init__(game, left, top)
+        player.add_unit(self)
+        self.goal: Accessible or None = None
+        self.target = None
+        self.direction = (0, 0)
+        self.is_selected = False
+        self.player: Player = player
+        self.unit_type: str = unit_type
+        self.max_hp: int = max_hp
+        self.hp = max_hp
+        self.speed: int = speed
+        animation = f'{self.player.color}_{self.unit_type}'
+        self.set_animation(animation)
+        self.x, self.y = self.rect.topleft
+        self.set_target((self.x + 1, self.y))
+
+    def process(self, delta: float) -> None:
+        if self.hp <= 0:
+            if self.goal:
+                if isinstance(self.goal, Collected):
+                    self.goal.stop_collect()
+                self.goal = None
+            return
+        if self.goal is not None:
+            self.follow(self.goal.rect.center)
+        if self.target is not None:
+            if self.direction is None:
+                self.set_target(self.target)
+            self.x += self.direction[0] * delta * self.speed / 1000
+            self.y += self.direction[1] * delta * self.speed / 1000
+            if (self.target[0] - self.x) * self.direction[0] < 0:
+                self.x = self.target[0]
+                self.direction = 0, self.direction[1]
+
+            if (self.target[1] - self.y) * self.direction[1] < 0:
+                self.y = self.target[1]
+                self.direction = self.direction[0], 0
+        self.rect.x = self.x
+        self.rect.y = self.y
+        ox = -self.direction[0] * self.rect.size[0]
+        oy = -self.direction[1] * self.rect.size[1]
+        if ox or oy:
+            for i in self.game.game_objects:
+                if isinstance(i, Unit) and i != self and self.rect.colliderect(i.rect) and i.direction == (
+                        0, 0) and i.goal is None:
+                    r = i.rect.copy()
+                    r.x += ox
+                    r.y += oy
+                    i.set_target(r)
+
+        self.draw()
+        Selectable.process(self, delta)
+
+    def follow(self, target):
+        self.target = target
+        x = self.target[0] - self.rect.x
+        y = self.target[1] - self.rect.y
+        a = (abs(x) + abs(y))
+        if a != 0:
+            self.direction = x / a, y / a
+
+    def set_target(self, target):
+        if self.goal is not None:
+            self.goal.stop_access()
+            self.goal = None
+        self.follow(target)
+
+    def set_goal(self, goal: core.Drawing):
+        self.goal = goal
+
+
+class Slave(Unit):
+
+    def __init__(self, game, player, left=0, top=0):
+        types = ['slave_1', 'slave_2']
+        super().__init__(game, player, random.choice(types), 80, 10, left, top)
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.hp <= 0:
+            return
+        if self.goal:
+            if isinstance(self.goal, Collected):
+                if self.goal.collector and self.goal.collector != self:
+                    self.target = None
+                    self.goal = None
+                elif self.rect.colliderect(self.goal.rect):
+                    if self.goal.collector == self:
+                        if self.goal.is_collected:
+                            self.target = None
+                            self.goal = None
+                    else:
+                        self.goal.start_collect(self)
+
+
+class Wizard(Unit):
+
+    def __init__(self, game, player, left=0, top=0):
+        types = ['wizard']
+        super().__init__(game, player, random.choice(types), 60, 6, left, top)
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.hp <= 0:
+            return
+        if self.goal:
+            if isinstance(self.goal, Flammable):
+                if self.rect.colliderect(self.goal.rect):
+                    self.goal.is_burning = True
+                    self.target = None
+                    self.goal = None
+
+
+class Lancer(Unit):
+    attack: int = 3
+    attack_interval: int = 2000
+    wait_attack: int = 0
+
+    def __init__(self, game, player, speed=90, hp=16, types=None, left=0, top=0):
+        if types is None:
+            types = ['lancer']
+        super().__init__(game, player, random.choice(types), speed, hp, left, top)
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.hp <= 0:
+            return
+        self.wait_attack -= delta
+
+        if self.goal:
+            if isinstance(self.goal, Unit):
+                if self.goal.hp <= 0:
+                    self.goal = None
+                elif self.rect.colliderect(self.goal.rect):
+                    self.wait_attack -= delta
+                    if self.wait_attack <= 0:
+                        self.goal.hp -= self.attack
+                        self.wait_attack = self.attack_interval
+        else:
+            if self.direction == (0, 0):
+                md = -1
+                mcol = None
+                for enemy in self.game.game_objects:
+                    if isinstance(enemy,
+                                  Unit) and enemy.player != self.player and enemy.hp > 0:
+                        d = self.rect.get_distance(enemy.rect)
+                        if (md == -1 or d < md) and d < 50:
+                            md = d
+                            mcol = enemy
+                if mcol:
+                    self.set_goal(mcol)
+
+
+class PowerLancer(Lancer):
+    attack: int = 5
+
+    def __init__(self, game, player, left=0, top=0):
+        types = ['power_lancer']
+        super().__init__(game, player, 80, 20, types, left, top)
+
+
+class King(Unit):
+
+    def __init__(self, game, player, left=0, top=0):
+        types = ['king']
+        super().__init__(game, player, random.choice(types), 90, 18, left, top)
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.hp <= 0:
+            return
+
+
+class Selection(core.Drawing):
+
+    def __init__(self, game: 'Generals'):
+        self.is_active: bool = False
+        self.alpha = 50
+        self.start_coord = 0, 0
+        self.start_camera = 0, 0
+        super().__init__(game)
+
+    def __bool__(self):
+        return self.is_active
+
+    def start(self, coord):
+        self.is_active = True
+        self.start_coord = coord
+        self.rect.topleft = self.start_coord
+
+    def end(self):
+        self.rect.normalize()
+        self.is_active = False
+
+    def event(self, event) -> None:
+        real_mouse = self.game.camera.ui_point_at(self.game.mouse_coord)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.start(real_mouse)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            units = self.game.player.units
+            if event.button == 1:
+                self.end()
+                if self.rect.w >= 15 or self.rect.h >= 15:
+                    for sprite in units:
+                        if self.rect.colliderect(sprite.rect):
+                            sprite.is_selected = True
+                        elif not self.game.keys[pygame.K_LSHIFT]:
+                            sprite.is_selected = False
+                else:
+                    selected_units = tuple(filter(lambda x: x.is_selected, units))
+                    active = self.game.cursor.hover
+                    if isinstance(active, Unit) and active.player == self.game.player:
+                        for i in selected_units:
+                            i.is_selected = False
+                        active.is_selected = True
+                    else:
+                        slaves = tuple(filter(lambda x: isinstance(x, Slave), selected_units))
+                        wizards = tuple(filter(lambda x: isinstance(x, Wizard), selected_units))
+                        lancers = tuple(filter(lambda x: isinstance(x, Lancer), selected_units))
+                        ok = True
+                        if len(slaves) == 1:
+                            active = self.game.cursor.hover
+                            if isinstance(active, Collected):
+                                ok = False
+                                for slave in slaves:
+                                    slave.set_goal(active)
+                        if len(wizards) == 1:
+                            active = self.game.cursor.hover
+                            if isinstance(active, Flammable):
+                                ok = False
+                                for wizard in wizards:
+                                    wizard.set_goal(active)
+                        if len(lancers):
+                            active = self.game.cursor.hover
+                            if isinstance(active, Unit):
+                                ok = False
+                                for lancer in lancers:
+                                    lancer.set_goal(active)
+                        if ok:
+                            for sprite in selected_units:
+                                sprite.set_target(real_mouse)
+            elif event.button == 3:
+                self.end()
+                for sprite in units:
+                    sprite.is_selected = False
+
+    def process(self, delta: float) -> None:
+        if self.is_active:
+            end_coord = self.game.camera.ui_point_at(self.game.mouse_coord)
+            self.rect.w = abs(end_coord[0] - self.start_coord[0])
+            self.rect.h = abs(end_coord[1] - self.start_coord[1])
+            self.rect.x = min(end_coord[0], self.start_coord[0])
+            self.rect.y = min(end_coord[1], self.start_coord[1])
+
+            self.surface = pygame.Surface((self.rect.w, self.rect.h))
+
+            pygame.draw.rect(self.surface, (255, 255, 255), (0, 0, self.rect.w, self.rect.h), 5)
+            self.draw()
+
+
+class Cursor(core.Sprite, core.UI):
+
+    def __init__(self, game: 'Generals'):
+        super().__init__(game)
+        self.z_index = 100
+        self.hover: core.Drawing = None
+        self.set_animation('cursor')
+
+    def process(self, delta: float) -> None:
+        self.hover = None
+        coord = self.game.camera.ui_point_at(self.game.mouse_coord)
+        rect = core.Rect(0, 0, 20, 20)
+        rect.center = coord
+        for sprite in filter(lambda x: isinstance(x, Accessible), reversed(self.game.game_objects)):
+            if sprite.rect.colliderect(rect):
+                self.hover = sprite
+                break
+        self.rect.center = self.game.mouse_coord
+        if self.rect.x <= 8:
+            self.game.camera.move(-4, 0)
+        elif self.rect.x >= self.game.window_size[0] - 8:
+            self.game.camera.move(4, 0)
+        if self.rect.y <= 8:
+            self.game.camera.move(0, -4)
+        elif self.rect.y >= self.game.window_size[1] - 8:
+            self.game.camera.move(0, 4)
+        if isinstance(self.hover, Unit) and self.hover.player == self.game.player:
+            self.set_animation('cursor_select')
+        else:
+            self.set_animation('cursor')
+        self.draw()
+
+
+COLLECTED_KEYS = {
+    0: SmallTree,
+    1: BigTree,
+    2: SmallFoodField,
+    3: BigFoodField,
+    4: Stone
+}
+
+UNITS_KEYS = {
+    0: Slave,
+    1: Lancer,
+    2: PowerLancer,
+    3: Wizard,
+    4: King
+}
+
+
+class JSONLevelData:
+    def __init__(self):
+        self.width: int
+        self.height: int
+        self.collected
+        self.units
+
+
+class LevelJSON(core.Object):
+
+    def __init__(self, game: 'Generals', json_file, tile_size=64):
+        super().__init__(game)
+        self.tile_size = tile_size
+        data: dict = json.loads(json_file)
+        self.width = data.get('width')
+        self.height = data.get('height')
+
+        camera_pos = data.get('camera_pos')
+        zoom = data.get('base_zoom')
+
+        self.game.camera.max_x = self.width
+        self.game.camera.max_y = self.height
+        self.game.camera.zoom_abs(zoom)
+        self.game.camera.topleft = camera_pos
+
+        fields = [[Field(game, i, j) for j in range((self.height + self.tile_size - 1) // self.tile_size)] for i in
+                  range((self.width + self.tile_size - 1) // self.tile_size)]
+        for i in data.get('collected'):
+            pos = i.get('pos')
+            type = i.get('type')
+            COLLECTED_KEYS[type](game, left=pos[0], top=pos[1])
+        for unit in data.get('units'):
+            player_id = unit.get('player')
+            if player_id == 0:
+                player = self.game.player
+            else:
+                player = self.game.bots[player_id % len(self.game.bots)]
+            pos = unit.get('pos')
+            type = unit.get('type')
+            UNITS_KEYS[type](game, player, left=pos[0], top=pos[1])
+
+
+class Generals(core.Game):
+
+    def __init__(self, window_size, viewport_size, title, icon, full_screen):
+        super().__init__(window_size, viewport_size, title, icon, full_screen, 60)
+        pygame.font.init()
+        self.selection: Selection or None = None
+        self.player: Player = Player(self, 'blue')
+        self.bots: List[Bot] = [Bot(self, 'red')]
+        pygame.mouse.set_visible(False)
+
+    def event(self, event) -> None:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 4:  # wheel rolled up
+            self.camera.zoom(0.1)
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 5:  # wheel rolled down
+            self.camera.zoom(-0.1)
+
+    def load_resources(self):
+        animations = {
+            'cursor': ('cursor3.png',),
+            'big_cursor': ('cursor2.png',),
+
+            'cursor_select': ('Cursors/select_1.png',),
+
+            'tree_1': ('Environment/medievalEnvironment_01.png',),
+            'tree_2': ('Environment/medievalEnvironment_02.png',),
+            'tree_3': ('Environment/medievalEnvironment_03.png',),
+            'tree_4': ('Environment/medievalEnvironment_04.png',),
+            'stump': ('Environment/medievalEnvironment_05.png',),
+
+            'stone_1': ('Environment/medievalEnvironment_11.png',),
+            'stone_2': ('Environment/medievalEnvironment_12.png',),
+            'stone_clear': ('Environment/medievalEnvironment_10.png',),
+
+            'food_field_1': ('Tile/medievalTile_54.png',),
+            'food_field_2': ('Tile/medievalTile_56.png',),
+            'harvested_food_field_1': ('Tile/medievalTile_53.png',),
+            'harvested_food_field_2': ('Tile/medievalTile_55.png',),
+            'field_1': ('Tile/medievalTile_57.png',),
+            'field_2': ('Tile/medievalTile_58.png',),
+
+            'fire': ('Environment/medievalEnvironment_21.png',),
+
+            'red_slave_1': ('Unit/medievalUnit_05.png',),
+            'red_slave_2': ('Unit/medievalUnit_06.png',),
+            'red_wizard': ('Unit/medievalUnit_07.png',),
+            'red_lancer': ('Unit/medievalUnit_08.png',),
+            'red_power_lancer': ('Unit/medievalUnit_09.png',),
+            'red_king': ('Unit/medievalUnit_10.png',),
+
+            'green_slave_1': ('Unit/medievalUnit_11.png',),
+            'green_slave_2': ('Unit/medievalUnit_12.png',),
+            'green_wizard': ('Unit/medievalUnit_13.png',),
+            'green_lancer': ('Unit/medievalUnit_14.png',),
+            'green_power_lancer': ('Unit/medievalUnit_15.png',),
+            'green_king': ('Unit/medievalUnit_16.png',),
+
+            'white_slave_1': ('Unit/medievalUnit_17.png',),
+            'white_slave_2': ('Unit/medievalUnit_18.png',),
+            'white_wizard': ('Unit/medievalUnit_19.png',),
+            'white_lancer': ('Unit/medievalUnit_20.png',),
+            'white_power_lancer': ('Unit/medievalUnit_21.png',),
+            'white_king': ('Unit/medievalUnit_22.png',),
+
+            'blue_slave_1': ('Unit/medievalUnit_23.png',),
+            'blue_slave_2': ('Unit/medievalUnit_24.png',),
+            'blue_wizard': ('Unit/medievalUnit_01.png',),
+            'blue_lancer': ('Unit/medievalUnit_02.png',),
+            'blue_power_lancer': ('Unit/medievalUnit_03.png',),
+            'blue_king': ('Unit/medievalUnit_04.png',),
+            'icon': ('icon.png',),
+        }
+        self.resources.load_animations(animations)
+        self.resources.load_font('Montserrat', 'Montserrat.ttf')
+        self.selection: Selection = Selection(self)
+        self.cursor: Cursor = Cursor(self)
+
+    def process(self, delta: float) -> None:
+        if self.player.is_defeated:
+            text = core.Text(self, "Montserrat", 'Ты проиграл', (255, 255, 255))
+            text.rect.center = self.screen.get_rect().center
+        elif len(tuple(filter(lambda x: not x.is_defeated, self.bots))) == 0:
+            text = core.Text(self, "Montserrat", 'Ты выиграл', (255, 255, 255))
+            text.rect.center = self.screen.get_rect().center
+
+
+RESOLUTIONS = {
+    '240': (320, 240),
+    '640': (640, 400),
+    '720': (1280, 720),
+    '768': (1366, 768),
+    '900': (1600, 900),
+    '1080': (1920, 1080),
+}
+
+
+def main():
+    res = '640'
+    window_size = RESOLUTIONS[res]
+    viewport_size = RESOLUTIONS[res]
+    title = "zulu-doodmaak"
+    icon = "icon"
+    full_screen = False
+    game = Generals(window_size, viewport_size, title, icon, full_screen)
+    json_data = open('levels/1.json').read()
+    level = LevelJSON(game, json_data)
+    game.start((10, 255, 255))
