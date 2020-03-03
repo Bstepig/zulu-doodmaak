@@ -122,14 +122,13 @@ class Collected(core.Sprite, Accessible):
     collected_animation: str
 
     is_collected: bool = False
-    is_collecting: bool = False
+    collector = None
 
     material: int
     collecting_time: int
     recovery_time: int
     left_for_recover: int = 0
     left_for_collect: int = 0
-    collector = None
     amount: int
 
     def __init__(self, game: core.Game, left=0, top=0):
@@ -148,9 +147,8 @@ class Collected(core.Sprite, Accessible):
         self.set_animation(self.collected_animation)
 
     def start_collect(self, collector) -> bool:
-        if self.is_collected or self.is_collecting:
+        if self.is_collected:
             return False
-        self.is_collecting = True
         self.left_for_collect = self.collecting_time
         self.collector = collector
         return True
@@ -159,11 +157,11 @@ class Collected(core.Sprite, Accessible):
         self.stop_collect()
 
     def stop_collect(self):
-        self.is_collecting = False
         self.left_for_recover = self.recovery_time
+        self.collector = None
 
     def process(self, delta: float) -> None:
-        if self.is_collecting:
+        if self.collector is not None:
             self.left_for_collect -= delta
             if self.left_for_collect <= 0:
                 self.collect()
@@ -269,7 +267,7 @@ class Bot(Player):
                 mcol = None
                 for collected in self.game.game_objects:
                     if isinstance(collected,
-                                  Collected) and collected.is_collecting == False and not collected.is_collected:
+                                  Collected) and collected.collector is not None and not collected.is_collected:
                         d = unit.rect.get_distance(collected.rect)
                         if (md == -1 or d < md) and d < 200:
                             md = d
@@ -419,13 +417,17 @@ class Unit(Selectable):
             self.direction = x / a, y / a
 
     def set_target(self, target):
-        if self.goal is not None:
-            self.goal.stop_access()
-            self.goal = None
+        self.remove_goal()
         self.follow(target)
 
     def set_goal(self, goal: core.Drawing):
+        self.remove_goal()
         self.goal = goal
+
+    def remove_goal(self):
+        if self.goal is not None:
+            self.goal.stop_access()
+            self.goal = None
 
 
 class Slave(Unit):
@@ -445,17 +447,16 @@ class Slave(Unit):
             return
         if self.goal:
             if isinstance(self.goal, Collected):
-                if self.goal.collector and self.goal.collector != self:
+                if self.goal.collector is not None and self.goal.collector != self:
                     self.target = None
                     self.goal = None
                 elif self.rect.colliderect(self.goal.rect):
-                    if self.goal.collector == self:
-                        if self.goal.is_collected:
-                            self.player.resources[self.goal.material] += self.goal.amount
-                            self.game.set_texts()
-                            self.target = None
-                            self.goal = None
-                    else:
+                    if self.goal.is_collected:
+                        self.player.resources[self.goal.material] += self.goal.amount
+                        self.game.set_texts()
+                        self.target = None
+                        self.remove_goal()
+                    elif self.goal.collector is None:
                         self.goal.start_collect(self)
 
 
