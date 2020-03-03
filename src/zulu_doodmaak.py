@@ -15,18 +15,37 @@ def hex2rgb(h):
         return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
 
 
-class Button(core.Drawing, core.UI):
-    is_hover: bool = False
+class ButtonImage(core.Sprite):
 
-    def __init__(self, game):
+    def __init__(self, game: 'Game', button: 'NativeButton', animation):
         super().__init__(game)
-        self.surface = pygame.Surface((100, 100))
-        self.color = hex2rgb("#ccc")
-        self.hover_color = hex2rgb("#bbb")
-        self.rect = self.surface.get_rect()
-        self.rect.bottom = self.game.camera.bottom
+        self.rect = button.rect.copy()
+        self.button = button
+        self.set_animation(animation)
 
     def process(self, delta: float) -> None:
+        if not self.button.hidden:
+            self.rect.center = self.button.rect.center
+            self.draw()
+
+
+class NativeButton(core.Drawing):
+    is_hover: bool = False
+
+    def __init__(self, game, rect, color="#ccc", hover_color="#bbb", animation=None, click_callback=None):
+        super().__init__(game)
+        self.rect = rect
+        self.surface = pygame.Surface(self.rect.size)
+        self.color = hex2rgb(color)
+        self.hover_color = hex2rgb(hover_color)
+        self.hidden = False
+        self.click_callback = click_callback
+        if animation is not None:
+            self.sprite = ButtonImage(self.game, self, animation)
+
+    def process(self, delta: float) -> None:
+        if self.hidden:
+            return
         if self.is_hover:
             self.surface.fill(self.hover_color)
         else:
@@ -34,11 +53,12 @@ class Button(core.Drawing, core.UI):
         self.draw()
 
     def on_click(self):
-        Lancer(self.game, self.game.player)
+        if self.click_callback:
+            self.click_callback()
 
     def event(self, event) -> None:
         if event.type == pygame.MOUSEMOTION:
-            if self.rect.collidepoint(self.game.mouse_coord):
+            if self.rect.collidepoint(self.game.camera.mouse_at()):
                 self.is_hover = True
             else:
                 self.is_hover = False
@@ -46,6 +66,10 @@ class Button(core.Drawing, core.UI):
             if event.button == 1:
                 if self.is_hover:
                     self.on_click()
+
+
+class Button(NativeButton, core.UI):
+    pass
 
 
 COLLECTED_TYPES = {
@@ -217,10 +241,11 @@ class Player(core.Object):
     def __init__(self, game, color):
         super().__init__(game)
         self.king: King = None
-        self.units: List['Unit'] = []
+        self.units: List['Selectable'] = []
         self.color: str = color
+        self.resources = [0, 0, 0]
 
-    def add_unit(self, unit: 'Unit'):
+    def add_unit(self, unit: 'Selectable'):
         self.units.append(unit)
         if isinstance(unit, King):
             self.king = unit
@@ -265,12 +290,23 @@ class Bot(Player):
                     unit.set_goal(mcol)
 
 
-class Selectable(core.Drawing):
+class Selectable(core.Sprite, Accessible):
+    hp: int
     is_selected: bool
 
-    def __init__(self, game, left=0, top=0):
+    def __init__(self, game, player, max_hp, left=0, top=0):
         super().__init__(game, left, top)
+        player.add_unit(self)
         self.hp_panel = core.Drawing(self.game)
+        self.is_selected = False
+        self.player: Player = player
+        self.max_hp: int = max_hp
+        self.hp = max_hp
+        self.cost = {
+            "wood": 0,
+            "stone": 0,
+            "food": 0
+        }
 
     def process(self, delta: float) -> None:
         self.hp_panel.surface = pygame.Surface((self.rect.w, 5))
@@ -284,25 +320,58 @@ class Selectable(core.Drawing):
             self.hp_panel.draw()
 
 
-class Unit(core.Sprite, Accessible, Selectable):
-    hp: int
+class Construction(Selectable):
+
+    def __init__(self, game, player: Player, construction_type, max_hp, left=0, top=0):
+        super().__init__(game, player, max_hp, left, top)
+        self.construction_type: str = construction_type
+        animation = f'{self.player.color}_{self.construction_type}'
+        self.set_animation(animation)
+
+    def process(self, delta: float) -> None:
+        if self.hp <= 0:
+            return
+        self.draw()
+        super().process(delta)
+
+
+class Barracks(Construction):
+
+    def __init__(self, game, player: Player, left=0, top=0):
+        super().__init__(game, player, 'barracks', 120, left, top)
+        btn_r = core.Rect(0, 0, 50, 50)
+        btn_r.centery = self.rect.centery
+        btn_r.x = self.rect.right + 10
+        hero = f'{self.player.color}_lancer'
+        self.btn = NativeButton(self.game, btn_r, "#fff", "eee", hero, self.buy_lancer)
+
+    def process(self, delta: float) -> None:
+        super().process(delta)
+        if self.is_selected:
+            self.btn.hidden = False
+        else:
+            self.btn.hidden = True
+
+    def buy_lancer(self):
+        self.is_selected = False
+        if Lancer.cost['food'] <= self.player.resources[COLLECTED_TYPES["food"]]:
+            Lancer(self.game, self.player, left=self.rect.right + 30, top=self.rect.centery)
+            self.player.resources[COLLECTED_TYPES["food"]] -= Lancer.cost['food']
+            self.game.set_texts()
+
+
+class Unit(Selectable):
 
     def __init__(self, game, player: Player, unit_type, speed, max_hp, left=0, top=0):
-        super().__init__(game, left, top)
-        player.add_unit(self)
+        super().__init__(game, player, max_hp, left, top)
         self.goal: Accessible or None = None
         self.target = None
         self.direction = (0, 0)
-        self.is_selected = False
-        self.player: Player = player
         self.unit_type: str = unit_type
-        self.max_hp: int = max_hp
-        self.hp = max_hp
         self.speed: int = speed
         animation = f'{self.player.color}_{self.unit_type}'
         self.set_animation(animation)
         self.x, self.y = self.rect.topleft
-        self.set_target((self.x + 1, self.y))
 
     def process(self, delta: float) -> None:
         if self.hp <= 0:
@@ -360,6 +429,11 @@ class Unit(core.Sprite, Accessible, Selectable):
 
 
 class Slave(Unit):
+    cost = {
+        "wood": 0,
+        "stone": 0,
+        "food": 2
+    }
 
     def __init__(self, game, player, left=0, top=0):
         types = ['slave_1', 'slave_2']
@@ -377,6 +451,8 @@ class Slave(Unit):
                 elif self.rect.colliderect(self.goal.rect):
                     if self.goal.collector == self:
                         if self.goal.is_collected:
+                            self.player.resources[self.goal.material] += self.goal.amount
+                            self.game.set_texts()
                             self.target = None
                             self.goal = None
                     else:
@@ -384,6 +460,11 @@ class Slave(Unit):
 
 
 class Wizard(Unit):
+    cost = {
+        "wood": 0,
+        "stone": 0,
+        "food": 5
+    }
 
     def __init__(self, game, player, left=0, top=0):
         types = ['wizard']
@@ -405,6 +486,11 @@ class Lancer(Unit):
     attack: int = 3
     attack_interval: int = 2000
     wait_attack: int = 0
+    cost = {
+        "wood": 0,
+        "stone": 0,
+        "food": 5
+    }
 
     def __init__(self, game, player, speed=90, hp=16, types=None, left=0, top=0):
         if types is None:
@@ -443,6 +529,11 @@ class Lancer(Unit):
 
 class PowerLancer(Lancer):
     attack: int = 5
+    cost = {
+        "wood": 0,
+        "stone": 0,
+        "food": 8
+    }
 
     def __init__(self, game, player, left=0, top=0):
         types = ['power_lancer']
@@ -500,7 +591,7 @@ class Selection(core.Drawing):
                 else:
                     selected_units = tuple(filter(lambda x: x.is_selected, units))
                     active = self.game.cursor.hover
-                    if isinstance(active, Unit) and active.player == self.game.player:
+                    if isinstance(active, Selectable) and active.player == self.game.player:
                         for i in selected_units:
                             i.is_selected = False
                         active.is_selected = True
@@ -529,7 +620,8 @@ class Selection(core.Drawing):
                                     lancer.set_goal(active)
                         if ok:
                             for sprite in selected_units:
-                                sprite.set_target(real_mouse)
+                                if isinstance(sprite, Unit):
+                                    sprite.set_target(real_mouse)
             elif event.button == 3:
                 self.end()
                 for sprite in units:
@@ -575,7 +667,7 @@ class Cursor(core.Sprite, core.UI):
             self.game.camera.move(0, -4)
         elif self.rect.y >= self.game.window_size[1] - 8:
             self.game.camera.move(0, 4)
-        if isinstance(self.hover, Unit) and self.hover.player == self.game.player:
+        if isinstance(self.hover, Selectable) and self.hover.player == self.game.player:
             self.set_animation('cursor_select')
         else:
             self.set_animation('cursor')
@@ -588,6 +680,10 @@ COLLECTED_KEYS = {
     2: SmallFoodField,
     3: BigFoodField,
     4: Stone
+}
+
+CONSTRUCTION_KEYS = {
+    0: Barracks,
 }
 
 UNITS_KEYS = {
@@ -630,6 +726,15 @@ class LevelJSON(core.Object):
             pos = i.get('pos')
             type = i.get('type')
             COLLECTED_KEYS[type](game, left=pos[0], top=pos[1])
+        for construction in data.get('constructions'):
+            player_id = construction.get('player')
+            if player_id == 0:
+                player = self.game.player
+            else:
+                player = self.game.bots[player_id % len(self.game.bots)]
+            pos = construction.get('pos')
+            type = construction.get('type')
+            CONSTRUCTION_KEYS[type](game, player, left=pos[0], top=pos[1])
         for unit in data.get('units'):
             player_id = unit.get('player')
             if player_id == 0:
@@ -650,6 +755,11 @@ class Generals(core.Game):
         self.player: Player = Player(self, 'blue')
         self.bots: List[Bot] = [Bot(self, 'red')]
         pygame.mouse.set_visible(False)
+
+        self.wood = core.Text(self, "Montserrat_16", color=(255, 255, 255))
+        self.stone = core.Text(self, "Montserrat_16", color=(255, 255, 255))
+        self.food = core.Text(self, "Montserrat_16", color=(255, 255, 255))
+        self.set_texts()
 
     def event(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 4:  # wheel rolled up
@@ -710,12 +820,30 @@ class Generals(core.Game):
             'blue_lancer': ('Unit/medievalUnit_02.png',),
             'blue_power_lancer': ('Unit/medievalUnit_03.png',),
             'blue_king': ('Unit/medievalUnit_04.png',),
+
+            'green_barracks': ('Structure/medievalStructure_21.png',),
+            'white_barracks': ('Structure/medievalStructure_21.png',),
+            'blue_barracks': ('Structure/medievalStructure_21.png',),
+            'red_barracks': ('Structure/medievalStructure_19.png',),
+
             'icon': ('icon.png',),
         }
         self.resources.load_animations(animations)
         self.resources.load_font('Montserrat', 'Montserrat.ttf')
+        self.resources.load_font('Montserrat_16', 'Montserrat.ttf', size=16)
+
+    def start(self, fill=None):
         self.selection: Selection = Selection(self)
         self.cursor: Cursor = Cursor(self)
+        super().start(fill)
+
+    def set_texts(self):
+        self.wood.set_text(f'Дерева: {self.player.resources[COLLECTED_TYPES["wood"]]}')
+        self.food.set_text(f'Камня: {self.player.resources[COLLECTED_TYPES["stone"]]}')
+        self.stone.set_text(f'Еды: {self.player.resources[COLLECTED_TYPES["food"]]}')
+        self.wood.rect.topleft = (10, 10)
+        self.stone.rect.topleft = (10, 30)
+        self.food.rect.topleft = (10, 50)
 
     def process(self, delta: float) -> None:
         if self.player.is_defeated:

@@ -152,6 +152,16 @@
       ]
     }
   ],
+  "constructions": [
+    {
+      "type": 0,
+      "pos": [
+        100,
+        150
+      ],
+      "player": 0
+    }
+  ],
   "units": [
     {
       "type": 4,

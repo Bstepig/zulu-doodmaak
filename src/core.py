@@ -186,8 +186,7 @@ class Camera(Object, Rect):
         self.min_size = 50
         self.max_size = 500
         self.viewport: Surface = Surface((self.base_w, self.base_h))
-        self.ui: Surface = Surface((self.base_w, self.base_h))
-        self.ui.set_colorkey((0, 0, 0, 0))
+        self.ui = Surface((self.base_w, self.base_h), flags=pygame.SRCALPHA)
         self.layers: Dict[Surface] = {}
         self.min_x = min_x
         self.max_x = max_x
@@ -198,7 +197,6 @@ class Camera(Object, Rect):
         self.max_scale = max_scale
 
     def fill(self, color: pygame.Color):
-        self.viewport = Surface(self.size)
         self.viewport = Surface(self.size)
         self.ui.fill((0, 0, 0, 0))
         self.viewport.fill(color)
@@ -247,6 +245,9 @@ class Camera(Object, Rect):
     def ui_point_at(self, point):
         return point[0] / self.scale + self.x, point[1] / self.scale + self.y
 
+    def mouse_at(self):
+        return self.ui_point_at(self.game.mouse_coord)
+
     def move(self, x, y):
         self.x = max(self.min_x, self.x + x)
         if self.max_x:
@@ -281,7 +282,6 @@ class Game(AbstractObject):
         pass
 
     def start(self, fill=None):
-        self.load_resources()
         running = True
         clock: pygame.time.Clock = pygame.time.Clock()
         while running:
@@ -310,14 +310,17 @@ class Game(AbstractObject):
 
 
 class Text(Drawing, UI):
-    def __init__(self, game: 'Game', font_name: str, text: str, color=(0, 0, 0)):
+    def __init__(self, game: 'Game', font_name: str, text: str = "", color=(0, 0, 0)):
         super().__init__(game)
         self.font: pygame.font.Font = self.game.resources.fonts[font_name]
         self.color = color
         self.set_text(text)
 
     def set_text(self, text):
+        if self.surface:
+            self.surface.fill((0, 0, 0, 0))
         self.surface = self.font.render(str(text), 1, self.color)
+        self.rect.size = self.surface.get_size()
 
     def process(self, delta: float) -> None:
         self.draw()
