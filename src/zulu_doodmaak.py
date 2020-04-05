@@ -7,6 +7,11 @@ import json
 from src import core
 
 
+def get_system_screensize():
+    from ctypes import windll
+    return windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1)
+
+
 def hex2rgb(h):
     h = h.lstrip("#")
     if len(h) == 3:
@@ -866,12 +871,12 @@ RESOLUTIONS = {
 
 
 def main():
-    res = '640'
-    window_size = RESOLUTIONS[res]
-    viewport_size = RESOLUTIONS[res]
+    default_screensize = get_system_screensize()
+    window_size = default_screensize
+    viewport_size = default_screensize
     title = "zulu-doodmaak"
     icon = "icon"
-    full_screen = False
+    full_screen = True
     game = Generals(window_size, viewport_size, title, icon, full_screen)
     json_data = open('levels/1.json').read()
     level = LevelJSON(game, json_data)
