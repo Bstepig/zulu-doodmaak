@@ -138,7 +138,8 @@ class Collected(core.Sprite, Accessible):
 
     def __init__(self, game: core.Game, left=0, top=0):
         super().__init__(game, left, top)
-        self.not_collected_animation = random.choice(self.not_collected_animations)
+        self.not_collected_animation = random.choice(
+            self.not_collected_animations)
         self.collected_animation = random.choice(self.collected_animations)
         self.recover()
 
@@ -346,7 +347,8 @@ class Barracks(Construction):
         btn_r.centery = self.rect.centery
         btn_r.x = self.rect.right + 10
         hero = f'{self.player.color}_lancer'
-        self.btn = NativeButton(self.game, btn_r, "#fff", "eee", hero, self.buy_lancer)
+        self.btn = NativeButton(self.game, btn_r, "#fff",
+                                "eee", hero, self.buy_lancer)
 
     def process(self, delta: float) -> None:
         super().process(delta)
@@ -358,8 +360,10 @@ class Barracks(Construction):
     def buy_lancer(self):
         self.is_selected = False
         if Lancer.cost['food'] <= self.player.resources[COLLECTED_TYPES["food"]]:
-            Lancer(self.game, self.player, left=self.rect.right + 30, top=self.rect.centery)
-            self.player.resources[COLLECTED_TYPES["food"]] -= Lancer.cost['food']
+            Lancer(self.game, self.player, left=self.rect.right +
+                   30, top=self.rect.centery)
+            self.player.resources[COLLECTED_TYPES["food"]
+                                  ] -= Lancer.cost['food']
             self.game.set_texts()
 
 
@@ -595,16 +599,20 @@ class Selection(core.Drawing):
                         elif not self.game.keys[pygame.K_LSHIFT]:
                             sprite.is_selected = False
                 else:
-                    selected_units = tuple(filter(lambda x: x.is_selected, units))
+                    selected_units = tuple(
+                        filter(lambda x: x.is_selected, units))
                     active = self.game.cursor.hover
                     if isinstance(active, Selectable) and active.player == self.game.player:
                         for i in selected_units:
                             i.is_selected = False
                         active.is_selected = True
                     else:
-                        slaves = tuple(filter(lambda x: isinstance(x, Slave), selected_units))
-                        wizards = tuple(filter(lambda x: isinstance(x, Wizard), selected_units))
-                        lancers = tuple(filter(lambda x: isinstance(x, Lancer), selected_units))
+                        slaves = tuple(
+                            filter(lambda x: isinstance(x, Slave), selected_units))
+                        wizards = tuple(
+                            filter(lambda x: isinstance(x, Wizard), selected_units))
+                        lancers = tuple(
+                            filter(lambda x: isinstance(x, Lancer), selected_units))
                         ok = True
                         if len(slaves) == 1:
                             active = self.game.cursor.hover
@@ -643,7 +651,8 @@ class Selection(core.Drawing):
 
             self.surface = pygame.Surface((self.rect.w, self.rect.h))
 
-            pygame.draw.rect(self.surface, (255, 255, 255), (0, 0, self.rect.w, self.rect.h), 5)
+            pygame.draw.rect(self.surface, (255, 255, 255),
+                             (0, 0, self.rect.w, self.rect.h), 5)
             self.draw()
 
 
@@ -762,6 +771,7 @@ class Generals(core.Game):
         self.bots: List[Bot] = [Bot(self, 'red')]
         pygame.mouse.set_visible(False)
 
+        self.main_text = core.Text(self, "Montserrat", '', (255, 255, 255))
         self.wood = core.Text(self, "Montserrat_16", color=(255, 255, 255))
         self.stone = core.Text(self, "Montserrat_16", color=(255, 255, 255))
         self.food = core.Text(self, "Montserrat_16", color=(255, 255, 255))
@@ -844,20 +854,28 @@ class Generals(core.Game):
         super().start(fill)
 
     def set_texts(self):
-        self.wood.set_text(f'Дерева: {self.player.resources[COLLECTED_TYPES["wood"]]}')
-        self.food.set_text(f'Камня: {self.player.resources[COLLECTED_TYPES["stone"]]}')
-        self.stone.set_text(f'Еды: {self.player.resources[COLLECTED_TYPES["food"]]}')
+        self.wood.set_text(
+            f'Дерева: {self.player.resources[COLLECTED_TYPES["wood"]]}')
+        self.food.set_text(
+            f'Камня: {self.player.resources[COLLECTED_TYPES["stone"]]}')
+        self.stone.set_text(
+            f'Еды: {self.player.resources[COLLECTED_TYPES["food"]]}')
         self.wood.rect.topleft = (10, 10)
         self.stone.rect.topleft = (10, 30)
         self.food.rect.topleft = (10, 50)
 
+    def set_main_text(self, text):
+        self.main_text.set_text(text)
+        self.main_text.rect.center = (
+            self.camera.base_w / 2, self.camera.base_h / 2)
+
     def process(self, delta: float) -> None:
         if self.player.is_defeated:
-            text = core.Text(self, "Montserrat", 'Ты проиграл', (255, 255, 255))
-            text.rect.center = self.screen.get_rect().center
+            self.set_main_text("Ты проиграл")
         elif len(tuple(filter(lambda x: not x.is_defeated, self.bots))) == 0:
-            text = core.Text(self, "Montserrat", 'Ты выиграл', (255, 255, 255))
-            text.rect.center = self.screen.get_rect().center
+            self.set_main_text("Ты выиграл")
+        else:
+            self.set_main_text("")
 
 
 RESOLUTIONS = {
