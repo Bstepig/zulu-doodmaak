@@ -232,10 +232,10 @@ class Camera(Object, Rect):
 
     def zoom_abs(self, scale):
         self.scale = max(self.min_scale, min(self.max_scale, scale))
-        if self.max_x is None:
-            self.scale = max(self.scale, (self.max_x - self.min_x) / self.base_w)
+        if self.max_x is not None:
+            self.scale = max(self.scale, self.base_w / (self.max_x - self.min_x))
         if self.max_y is not None:
-            self.scale = max(self.scale, (self.max_y - self.min_y) / self.base_h)
+            self.scale = max(self.scale, self.base_h / (self.max_y - self.min_y))
         self_copy = self.copy()
         self.w = self.base_w / self.scale
         self.h = self.base_h / self.scale
