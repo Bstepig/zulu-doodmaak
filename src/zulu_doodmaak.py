@@ -440,6 +440,8 @@ class Unit(Selectable):
         animation = f'{self.player.color}_{self.unit_type}'
         self.set_animation(animation)
         self.x, self.y = self.rect.topleft
+        self.blood = Particles(self.game, self.rect.center,
+                               'blood', self.rect, min_scale=0.05, max_scale=0.1)
 
     def process(self, delta: float) -> None:
         if self.hp <= 0:
@@ -581,6 +583,10 @@ class Lancer(Unit):
                 elif self.rect.colliderect(self.goal.rect):
                     self.wait_attack -= delta
                     if self.wait_attack <= 0:
+                        try:
+                            self.goal.blood.play()
+                        except AttributeError:
+                            pass
                         screm = f'scream_{random.randint(1, 4)}'
                         self.game.resources.sounds[scream].play()
                         self.goal.hp -= self.attack
@@ -909,6 +915,8 @@ class Generals(core.Game):
             'white_barracks': ('Structure/medievalStructure_21.png',),
             'blue_barracks': ('Structure/medievalStructure_21.png',),
             'red_barracks': ('Structure/medievalStructure_19.png',),
+
+            'blood': ('Particle/blood.png',),
 
             'icon': ('icon.png',),
         }
