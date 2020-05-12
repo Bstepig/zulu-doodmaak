@@ -520,6 +520,8 @@ class Lancer(Unit):
                 elif self.rect.colliderect(self.goal.rect):
                     self.wait_attack -= delta
                     if self.wait_attack <= 0:
+                        screm = f'scream_{random.randint(1, 4)}'
+                        self.game.resources.sounds[scream].play()
                         self.goal.hp -= self.attack
                         self.wait_attack = self.attack_interval
         else:
@@ -778,6 +780,7 @@ class Generals(core.Game):
         self.set_texts()
 
         self.resources.sounds['music'].play()
+        self.resources.sounds['music'].set_volume(0.3)
 
     def event(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 4:  # wheel rolled up
@@ -849,7 +852,12 @@ class Generals(core.Game):
             'icon': ('icon.png',),
         }
         sounds = {
-            'music': 'sounds/music.wav',
+            'music': 'Sounds/music.wav',
+
+            'scream_1': 'Sounds/screams/1.wav',
+            'scream_2': 'Sounds/screams/2.wav',
+            'scream_3': 'Sounds/screams/3.wav',
+            'scream_4': 'Sounds/screams/4.wav',
         }
         self.resources.load_animations(animations)
         self.resources.load_font('Montserrat', 'Montserrat.ttf')
