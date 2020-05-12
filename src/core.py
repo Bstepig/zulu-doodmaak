@@ -45,6 +45,9 @@ class Collider(Rect):
 
 class AbstractObject:
 
+    def _process(self, delta: float) -> None:
+        self.process(delta)
+
     def process(self, delta: float) -> None:
         return
 
@@ -66,21 +69,28 @@ class Animation:
     tags: List[int]
     images: List[Surface]
     current: int = 0
+    _interval = 0
 
-    def __init__(self, images, tags=None, start=0):
+    def __init__(self, images, interval=100, tags=None, start=0):
         if tags is None:
             tags = [ANIMATION_TAGS['loop']]
+        self._interval = self.interval = interval
         self.tags = tags
         self.images = images
         self.current = start
 
-    def next(self) -> Surface or None:
-        self.current += 1
+    def image(self):
         length = len(self.images)
         if self.current >= length:
             if ANIMATION_TAGS['loop'] not in self.tags:
                 return self.images[-1]
         return self.images[self.current % length].copy()
+
+    def next(self, delta) -> Surface or None:
+        self._interval -= delta
+        if self._interval <= 0:
+            self._interval += self.interval
+            self.current += 1
 
 
 class Sound:
@@ -164,10 +174,14 @@ class Sprite(Drawing):
         self.animation = self.game.resources.animations[animation]
         self.rect.size = self.animation.images[0].get_bounding_rect().size
 
+    def _process(self, delta):
+        self.animation.next(delta)
+        super()._process(delta)
+
     def draw(self):
         if not self.animation:
             return
-        self.surface = self.animation.next()
+        self.surface = self.animation.image()
         super().draw()
 
 
@@ -294,7 +308,7 @@ class Game(AbstractObject):
                 self.camera.fill(fill)
                 self.screen.fill(fill)
             for el in self.game_objects:
-                el.process(tick)
+                el._process(tick)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -324,8 +338,9 @@ class Text(Drawing, UI):
         self.surface = self.font.render(str(text), 1, self.color)
         self.rect.size = self.surface.get_size()
 
-    def process(self, delta: float) -> None:
+    def _process(self, delta: float) -> None:
         self.draw()
+        super()._process(delta)
 
 
 class Resources:
