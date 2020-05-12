@@ -777,6 +777,8 @@ class Generals(core.Game):
         self.food = core.Text(self, "Montserrat_16", color=(255, 255, 255))
         self.set_texts()
 
+        self.resources.sounds['music'].play()
+
     def event(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 4:  # wheel rolled up
             self.camera.zoom(0.1)
@@ -844,9 +846,13 @@ class Generals(core.Game):
 
             'icon': ('icon.png',),
         }
+        sounds = {
+            'music': 'sounds/music.wav',
+        }
         self.resources.load_animations(animations)
         self.resources.load_font('Montserrat', 'Montserrat.ttf')
         self.resources.load_font('Montserrat_16', 'Montserrat.ttf', size=16)
+        self.resources.load_sounds(sounds)
 
     def start(self, fill=None):
         self.selection: Selection = Selection(self)

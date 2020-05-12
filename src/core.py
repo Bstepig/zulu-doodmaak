@@ -84,7 +84,7 @@ class Animation:
 
 
 class Sound:
-    channel: pygame.mixer.Channel
+    channel: pygame.mixer.Channel = None
 
     def set_volume(self, volume: int):
         self.channel.set_volume(volume)
@@ -233,9 +233,11 @@ class Camera(Object, Rect):
     def zoom_abs(self, scale):
         self.scale = max(self.min_scale, min(self.max_scale, scale))
         if self.max_x is not None:
-            self.scale = max(self.scale, self.base_w / (self.max_x - self.min_x))
+            self.scale = max(self.scale, self.base_w /
+                             (self.max_x - self.min_x))
         if self.max_y is not None:
-            self.scale = max(self.scale, self.base_h / (self.max_y - self.min_y))
+            self.scale = max(self.scale, self.base_h /
+                             (self.max_y - self.min_y))
         self_copy = self.copy()
         self.w = self.base_w / self.scale
         self.h = self.base_h / self.scale
@@ -328,7 +330,7 @@ class Text(Drawing, UI):
 
 class Resources:
     animations: Dict[str, Animation] = {}
-    sounds: Dict[str, Sound]
+    sounds: Dict[str, Sound] = {}
     fonts: Dict[str, pygame.font.Font] = {}
     base_path: str
 
@@ -342,13 +344,16 @@ class Resources:
             self.load_animation(*i)
 
     def load_animation(self, animation_name, filenames):
-        self.animations[animation_name] = Animation(list(map(self.load_image, filenames)))
+        self.animations[animation_name] = Animation(
+            list(map(self.load_image, filenames)))
 
     def load_font(self, font_name, filename, size=24):
         fullname = os.path.join(self.base_path, filename)
         self.fonts[font_name] = pygame.font.Font(fullname, size)
 
     def load_sounds(self, sounds):
+        if type(sounds) == dict:
+            sounds = sounds.items()
         for i in sounds:
             self.load_sound(*i)
 
