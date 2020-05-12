@@ -587,7 +587,7 @@ class Lancer(Unit):
                             self.goal.blood.play()
                         except AttributeError:
                             pass
-                        screm = f'scream_{random.randint(1, 4)}'
+                        scream = f'scream_{random.randint(1, 4)}'
                         self.game.resources.sounds[scream].play()
                         self.goal.hp -= self.attack
                         self.wait_attack = self.attack_interval
