@@ -165,9 +165,10 @@ class Drawing(Object):
 
 class Sprite(Drawing):
 
-    def __init__(self, game: 'Game', left=0, top=0):
+    def __init__(self, game: 'Game', left=0, top=0, size=None):
         super().__init__(game, left, top)
         self.animation: Animation or None = None
+        self.ss_size = size
 
     def set_animation(self, animation: str):
         self.surface: Surface
@@ -176,12 +177,18 @@ class Sprite(Drawing):
 
     def _process(self, delta):
         self.animation.next(delta)
+        if self.surface:
+            self.rect.size = self.surface.get_bounding_rect().size
         super()._process(delta)
 
     def draw(self):
         if not self.animation:
             return
-        self.surface = self.animation.image()
+        if self.ss_size is None:
+            self.surface = self.animation.image()
+        else:
+            self.surface = pygame.transform.scale(
+                self.animation.image(), self.ss_size)
         super().draw()
 
 

@@ -20,6 +20,67 @@ def hex2rgb(h):
         return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
 
 
+class Particle(core.Sprite):
+
+    def __init__(self, game, point, animation: str, border_rect=None, dx=0, dy=1, live_time: float = 10000, gravity: float = 0.5, scale=1):
+        super().__init__(game)
+        self.set_animation(animation)
+        self.rect.center = point
+        self.live_time = live_time
+        self.gravity = gravity
+        self.velocity = [dx, dy]
+        self.scale = scale
+        self.border_rect = border_rect.copy()
+        self.ss_size = [int(self.rect.size[0] * scale),
+                        int(self.rect.size[1] * scale)]
+
+    def process(self, delta):
+        self.live_time -= delta
+        if self.live_time <= 0:
+            return self.kill()
+        self.velocity[1] += self.gravity
+        self.rect.x += self.velocity[0]
+        self.rect.y += self.velocity[1]
+        if self.border_rect is not None:
+            self.rect.centerx = min(self.border_rect.right, max(
+                self.border_rect.left, self.rect.centerx))
+            self.rect.centery = min(self.border_rect.bottom, max(
+                self.border_rect.top, self.rect.centery))
+        self.draw()
+
+
+class Particles(core.Object):
+
+    def __init__(self, game, point, animation: str, rect=None, count: int = 10, live_time: float = 10000, gravity: float = 10, min_scale=1, max_scale=5):
+        super().__init__(game)
+        self.particles: List[Particle] = []
+        self.created = False
+        self.point = point
+        self.rect = rect
+        self.live_time = live_time
+        self.gravity = gravity
+        self.min_scale = min_scale
+        self.max_scale = max_scale
+        self.animation = animation
+        self.count = count
+
+    def set_animation(self, animation):
+        [i.set_animation(animation) for i in self.particles]
+
+    def set_count(count):
+        self.particles = []
+        for i in range(count):
+            sprite = core.Sprite(game)
+            self.particles.append(sprite)
+            sprite.set_animation(animation)
+
+    def play(self):
+        self.particles = []
+        for i in range(self.count):
+            self.particles.append(Particle(self.game, self.point, self.animation, self.rect, dx=random.uniform(
+                -3, 3), scale=random.uniform(self.min_scale, self.max_scale), live_time=self.live_time))
+
+
 class ButtonImage(core.Sprite):
 
     def __init__(self, game: 'Game', button: 'NativeButton', animation):
