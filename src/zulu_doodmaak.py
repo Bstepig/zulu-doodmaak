@@ -662,7 +662,7 @@ class Cursor(core.Sprite, core.UI):
         super().__init__(game)
         self.z_index = 100
         self.hover: core.Drawing = None
-        self.set_animation('cursor')
+        self.set_animation('cursor_default')
 
     def process(self, delta: float) -> None:
         self.hover = None
@@ -685,7 +685,7 @@ class Cursor(core.Sprite, core.UI):
         if isinstance(self.hover, Selectable) and self.hover.player == self.game.player:
             self.set_animation('cursor_select')
         else:
-            self.set_animation('cursor')
+            self.set_animation('cursor_default')
         self.draw()
 
 
@@ -787,10 +787,12 @@ class Generals(core.Game):
 
     def load_resources(self):
         animations = {
-            'cursor': ('cursor3.png',),
-            'big_cursor': ('cursor2.png',),
-
-            'cursor_select': ('Cursors/select_1.png',),
+            'cursor_default': ('Cursors/default/1.png',),
+            'cursor_select': ('Cursors/select/1.png',
+                              'Cursors/select/2.png',
+                              'Cursors/select/3.png',
+                              'Cursors/select/4.png',
+                              ),
 
             'tree_1': ('Environment/medievalEnvironment_01.png',),
             'tree_2': ('Environment/medievalEnvironment_02.png',),
