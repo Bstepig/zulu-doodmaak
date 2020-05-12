@@ -273,7 +273,7 @@ class Bot(Player):
                 mcol = None
                 for collected in self.game.game_objects:
                     if isinstance(collected,
-                                  Collected) and collected.collector is not None and not collected.is_collected:
+                                  Collected) and collected.collector is None and not collected.is_collected:
                         d = unit.rect.get_distance(collected.rect)
                         if (md == -1 or d < md) and d < 200:
                             md = d
