@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\volin\\YandexDisk\\Yandexlyceum\\02_Основы промышленного программирования - Д19\\23_Защита проекта PyGame'],
+             pathex=['C:\\Users\\volin\\Desktop\\zulu-doodmaak-master'],
              binaries=[],
              datas=[],
              hiddenimports=[],

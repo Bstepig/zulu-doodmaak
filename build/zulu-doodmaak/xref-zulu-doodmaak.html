@@ -15,7 +15,7 @@
 
 <div class="node">
   <a name="main.py"></a>
-  <a target="code" href="///C:/Users/volin/YandexDisk/Yandexlyceum/02_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BF%D1%80%D0%BE%D0%BC%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20-%20%D0%9419/23_%D0%97%D0%B0%D1%89%D0%B8%D1%82%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%20PyGame/main.py" type="text/plain"><tt>main.py</tt></a>
+  <a target="code" href="///C:/Users/volin/Desktop/zulu-doodmaak-master/main.py" type="text/plain"><tt>main.py</tt></a>
 <span class="moduletype">Script</span>  <div class="import">
 imports:
     <a href="#'java.lang'">'java.lang'</a>
@@ -556,8 +556,8 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
- &#8226;   <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
+ &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#setuptools.sandbox">setuptools.sandbox</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
@@ -2499,6 +2499,18 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="_cffi_backend"></a>
+  <tt>_cffi_backend</tt> <span class="moduletype"><tt>c:\users\volin\appdata\local\programs\python\python37-32\lib\site-packages\_cffi_backend.cp37-win32.pyd</tt></span>  <div class="import">
+imported by:
+    <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="_codecs"></a>
   <tt>_codecs</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
@@ -2740,7 +2752,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#dummy_threading">dummy_threading</a>
+    <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#dummy_threading">dummy_threading</a>
  &#8226;   <a href="#numpy.core.arrayprint">numpy.core.arrayprint</a>
 
   </div>
@@ -3322,6 +3335,8 @@ imported by:
 imported by:
     <a href="#PyInstaller.loader.pyimod02_archive">PyInstaller.loader.pyimod02_archive</a>
  &#8226;   <a href="#_strptime">_strptime</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#numpy.core.arrayprint">numpy.core.arrayprint</a>
@@ -3691,6 +3706,7 @@ imported by:
  &#8226;   <a href="#encodings.base64_codec">encodings.base64_codec</a>
  &#8226;   <a href="#http.server">http.server</a>
  &#8226;   <a href="#main.py">main.py</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#setuptools.package_index">setuptools.package_index</a>
  &#8226;   <a href="#ssl">ssl</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
@@ -3727,6 +3743,7 @@ imported by:
   <tt>binascii</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
     <a href="#base64">base64</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#email._encoded_words">email._encoded_words</a>
  &#8226;   <a href="#email.base64mime">email.base64mime</a>
  &#8226;   <a href="#email.contentmanager">email.contentmanager</a>
@@ -3845,6 +3862,23 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="cPickle"></a>
+  <a target="code" href="" type="text/plain"><tt>cPickle</tt></a>
+<span class="moduletype">MissingModule</span>  <div class="import">
+imports:
+    <a href="#cStringIO">cStringIO</a>
+ &#8226;   <a href="#copy_reg">copy_reg</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="cStringIO"></a>
   <a target="code" href="" type="text/plain"><tt>cStringIO</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -3854,7 +3888,9 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#pygame.compat">pygame.compat</a>
+    <a href="#cPickle">cPickle</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#pygame.compat">pygame.compat</a>
 
   </div>
 
@@ -3886,10 +3922,375 @@ imported by:
 
 <div class="node">
   <a name="cffi"></a>
-  <a target="code" href="" type="text/plain"><tt>cffi</tt></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/__init__.py" type="text/plain"><tt>cffi</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi._pycparser">cffi._pycparser</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.cffi_opcode">cffi.cffi_opcode</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+ &#8226;   <a href="#win32ctypes.core">win32ctypes.core</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi._pycparser"></a>
+  <a target="code" href="" type="text/plain"><tt>cffi._pycparser</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#win32ctypes.core">win32ctypes.core</a>
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.api"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/api.py" type="text/plain"><tt>cffi.api</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#_cffi_backend">_cffi_backend</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+ &#8226;   <a href="#collections">collections</a>
+ &#8226;   <a href="#collections.Callable">collections.Callable</a>
+ &#8226;   <a href="#ctypes.util">ctypes.util</a>
+ &#8226;   <a href="#distutils">distutils</a>
+ &#8226;   <a href="#distutils.dir_util">distutils.dir_util</a>
+ &#8226;   <a href="#distutils.sysconfig">distutils.sysconfig</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#sysconfig">sysconfig</a>
+ &#8226;   <a href="#types">types</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.cffi_opcode"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/cffi_opcode.py" type="text/plain"><tt>cffi.cffi_opcode</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.recompiler">cffi.recompiler</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.commontypes"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/commontypes.py" type="text/plain"><tt>cffi.commontypes</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#_cffi_backend">_cffi_backend</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.cparser">cffi.cparser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.cparser"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/cparser.py" type="text/plain"><tt>cffi.cparser</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#_thread">_thread</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi._pycparser">cffi._pycparser</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.lextab">pycparser.lextab</a>
+ &#8226;   <a href="#pycparser.yacctab">pycparser.yacctab</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#thread">thread</a>
+ &#8226;   <a href="#warnings">warnings</a>
+ &#8226;   <a href="#weakref">weakref</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.error"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/error.py" type="text/plain"><tt>cffi.error</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.cffi_opcode">cffi.cffi_opcode</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.ffiplatform"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/ffiplatform.py" type="text/plain"><tt>cffi.ffiplatform</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cStringIO">cStringIO</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#distutils.core">distutils.core</a>
+ &#8226;   <a href="#distutils.errors">distutils.errors</a>
+ &#8226;   <a href="#distutils.log">distutils.log</a>
+ &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#ntpath">ntpath</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#setuptools">setuptools</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.lock"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/lock.py" type="text/plain"><tt>cffi.lock</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#_dummy_thread">_dummy_thread</a>
+ &#8226;   <a href="#_thread">_thread</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#dummy_thread">dummy_thread</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#thread">thread</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.model"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/model.py" type="text/plain"><tt>cffi.model</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#types">types</a>
+ &#8226;   <a href="#warnings">warnings</a>
+ &#8226;   <a href="#weakref">weakref</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.pkgconfig"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/pkgconfig.py" type="text/plain"><tt>cffi.pkgconfig</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#subprocess">subprocess</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.recompiler"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/recompiler.py" type="text/plain"><tt>cffi.recompiler</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.cffi_opcode">cffi.cffi_opcode</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#distutils.ccompiler">distutils.ccompiler</a>
+ &#8226;   <a href="#distutils.command.build_ext">distutils.command.build_ext</a>
+ &#8226;   <a href="#distutils.msvc9compiler">distutils.msvc9compiler</a>
+ &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.api">cffi.api</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.vengine_cpy"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/vengine_cpy.py" type="text/plain"><tt>cffi.vengine_cpy</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#imp">imp</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#warnings">warnings</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.vengine_gen"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/vengine_gen.py" type="text/plain"><tt>cffi.vengine_gen</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#types">types</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="cffi.verifier"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/cffi/verifier.py" type="text/plain"><tt>cffi.verifier</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#_cffi_backend">_cffi_backend</a>
+ &#8226;   <a href="#binascii">binascii</a>
+ &#8226;   <a href="#cffi">cffi</a>
+ &#8226;   <a href="#cffi.error">cffi.error</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+ &#8226;   <a href="#imp">imp</a>
+ &#8226;   <a href="#importlib.machinery">importlib.machinery</a>
+ &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#shutil">shutil</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.api">cffi.api</a>
 
   </div>
 
@@ -4159,6 +4560,7 @@ imports:
     <a href="#_collections">_collections</a>
  &#8226;   <a href="#_collections_abc">_collections_abc</a>
  &#8226;   <a href="#_weakref">_weakref</a>
+ &#8226;   <a href="#collections.Callable">collections.Callable</a>
  &#8226;   <a href="#collections.Iterable">collections.Iterable</a>
  &#8226;   <a href="#collections.Mapping">collections.Mapping</a>
  &#8226;   <a href="#collections.MutableMapping">collections.MutableMapping</a>
@@ -4183,6 +4585,7 @@ imported by:
  &#8226;   <a href="#altgraph.Graph">altgraph.Graph</a>
  &#8226;   <a href="#altgraph.GraphUtil">altgraph.GraphUtil</a>
  &#8226;   <a href="#ast">ast</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#collections.abc">collections.abc</a>
  &#8226;   <a href="#concurrent.futures._base">concurrent.futures._base</a>
  &#8226;   <a href="#configparser">configparser</a>
@@ -4238,6 +4641,18 @@ imported by:
  &#8226;   <a href="#urllib.parse">urllib.parse</a>
  &#8226;   <a href="#wave">wave</a>
  &#8226;   <a href="#xml.etree.ElementTree">xml.etree.ElementTree</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="collections.Callable"></a>
+  <a target="code" href="" type="text/plain"><tt>collections.Callable</tt></a>
+<span class="moduletype">MissingModule</span>  <div class="import">
+imported by:
+    <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#collections">collections</a>
 
   </div>
 
@@ -4578,8 +4993,8 @@ imported by:
   <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#copyreg">copyreg</a>
- &#8226;   <a href="#org">org</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -4607,6 +5022,7 @@ imported by:
  &#8226;   <a href="#numpy.f2py.rules">numpy.f2py.rules</a>
  &#8226;   <a href="#numpy.ma.core">numpy.ma.core</a>
  &#8226;   <a href="#pkg_resources._vendor.pyparsing">pkg_resources._vendor.pyparsing</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
  &#8226;   <a href="#setuptools._vendor.pyparsing">setuptools._vendor.pyparsing</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#weakref">weakref</a>
@@ -4623,7 +5039,8 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>copy_reg</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#cStringIO">cStringIO</a>
+    <a href="#cPickle">cPickle</a>
+ &#8226;   <a href="#cStringIO">cStringIO</a>
  &#8226;   <a href="#numpy.core">numpy.core</a>
  &#8226;   <a href="#pygame">pygame</a>
 
@@ -4688,6 +5105,7 @@ imported by:
  &#8226;   <a href="#pkg_resources._vendor.appdirs">pkg_resources._vendor.appdirs</a>
  &#8226;   <a href="#setuptools.glibc">setuptools.glibc</a>
  &#8226;   <a href="#setuptools.windows_support">setuptools.windows_support</a>
+ &#8226;   <a href="#src.zulu_doodmaak">src.zulu_doodmaak</a>
  &#8226;   <a href="#uuid">uuid</a>
 
   </div>
@@ -4825,6 +5243,7 @@ imports:
 imported by:
     <a href="#PyInstaller.depend.bindepend">PyInstaller.depend.bindepend</a>
  &#8226;   <a href="#PyInstaller.depend.utils">PyInstaller.depend.utils</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#uuid">uuid</a>
 
   </div>
@@ -4995,6 +5414,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#_osx_support">_osx_support</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
  &#8226;   <a href="#distutils.archive_util">distutils.archive_util</a>
  &#8226;   <a href="#distutils.ccompiler">distutils.ccompiler</a>
@@ -5130,7 +5550,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#distutils">distutils</a>
+    <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#distutils">distutils</a>
  &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
  &#8226;   <a href="#distutils.command.build">distutils.command.build</a>
  &#8226;   <a href="#distutils.command.build_clib">distutils.command.build_clib</a>
@@ -5335,7 +5756,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#numpy.distutils.command.build_ext">numpy.distutils.command.build_ext</a>
+    <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#numpy.distutils.command.build_ext">numpy.distutils.command.build_ext</a>
  &#8226;   <a href="#numpy.distutils.command.build_src">numpy.distutils.command.build_src</a>
  &#8226;   <a href="#setuptools">setuptools</a>
 
@@ -5578,7 +6000,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#distutils.command.bdist">distutils.command.bdist</a>
+    <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#distutils.command.bdist">distutils.command.bdist</a>
  &#8226;   <a href="#distutils.command.bdist_rpm">distutils.command.bdist_rpm</a>
  &#8226;   <a href="#distutils.command.build">distutils.command.build</a>
  &#8226;   <a href="#distutils.command.build_clib">distutils.command.build_clib</a>
@@ -5703,7 +6126,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#distutils.archive_util">distutils.archive_util</a>
+    <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#distutils.archive_util">distutils.archive_util</a>
  &#8226;   <a href="#distutils.ccompiler">distutils.ccompiler</a>
  &#8226;   <a href="#distutils.cmd">distutils.cmd</a>
  &#8226;   <a href="#distutils.command.sdist">distutils.command.sdist</a>
@@ -5764,7 +6188,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
+    <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
  &#8226;   <a href="#distutils.archive_util">distutils.archive_util</a>
  &#8226;   <a href="#distutils.ccompiler">distutils.ccompiler</a>
  &#8226;   <a href="#distutils.cmd">distutils.cmd</a>
@@ -5946,6 +6371,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#_osx_support">_osx_support</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
  &#8226;   <a href="#distutils">distutils</a>
  &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
  &#8226;   <a href="#distutils.archive_util">distutils.archive_util</a>
@@ -6008,7 +6434,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#distutils.msvccompiler">distutils.msvccompiler</a>
+    <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#distutils.msvccompiler">distutils.msvccompiler</a>
  &#8226;   <a href="#numpy.distutils.command.config">numpy.distutils.command.config</a>
  &#8226;   <a href="#setuptools.msvc">setuptools.msvc</a>
 
@@ -6089,6 +6516,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#PyInstaller.depend.bindepend">PyInstaller.depend.bindepend</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#distutils">distutils</a>
  &#8226;   <a href="#distutils.command.bdist_rpm">distutils.command.bdist_rpm</a>
  &#8226;   <a href="#distutils.command.build_clib">distutils.command.build_clib</a>
@@ -6303,7 +6731,8 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>dummy_thread</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#numpy.core.arrayprint">numpy.core.arrayprint</a>
+    <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#numpy.core.arrayprint">numpy.core.arrayprint</a>
 
   </div>
 
@@ -10129,6 +10558,8 @@ imported by:
  &#8226;   <a href="#PyInstaller.lib.modulegraph.modulegraph">PyInstaller.lib.modulegraph.modulegraph</a>
  &#8226;   <a href="#PyInstaller.lib.modulegraph.util">PyInstaller.lib.modulegraph.util</a>
  &#8226;   <a href="#PyInstaller.loader.pyimod02_archive">PyInstaller.loader.pyimod02_archive</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#numpy.compat.py3k">numpy.compat.py3k</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
  &#8226;   <a href="#setuptools.depends">setuptools.depends</a>
@@ -10264,6 +10695,7 @@ imports:
 imported by:
     <a href="#PyInstaller.compat">PyInstaller.compat</a>
  &#8226;   <a href="#PyInstaller.lib.modulegraph.modulegraph">PyInstaller.lib.modulegraph.modulegraph</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#imp">imp</a>
  &#8226;   <a href="#importlib.abc">importlib.abc</a>
@@ -10357,6 +10789,8 @@ imported by:
  &#8226;   <a href="#pdb">pdb</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
  &#8226;   <a href="#pkgutil">pkgutil</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#setuptools.command.install">setuptools.command.install</a>
  &#8226;   <a href="#setuptools.monkey">setuptools.monkey</a>
@@ -10382,6 +10816,9 @@ imported by:
  &#8226;   <a href="#PyInstaller.lib.modulegraph.zipio">PyInstaller.lib.modulegraph.zipio</a>
  &#8226;   <a href="#_compression">_compression</a>
  &#8226;   <a href="#bz2">bz2</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#cgi">cgi</a>
  &#8226;   <a href="#configparser">configparser</a>
  &#8226;   <a href="#dis">dis</a>
@@ -10422,6 +10859,7 @@ imported by:
  &#8226;   <a href="#pkg_resources._vendor.six">pkg_resources._vendor.six</a>
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#pprint">pprint</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pygame.compat">pygame.compat</a>
  &#8226;   <a href="#quopri">quopri</a>
@@ -12079,6 +12517,7 @@ imported by:
  &#8226;   <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
  &#8226;   <a href="#PyInstaller.depend.dylib">PyInstaller.depend.dylib</a>
  &#8226;   <a href="#PyInstaller.utils.win32.icon">PyInstaller.utils.win32.icon</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
  &#8226;   <a href="#distutils.file_util">distutils.file_util</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#numpy.core.memmap">numpy.core.memmap</a>
@@ -12086,6 +12525,7 @@ imported by:
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
  &#8226;   <a href="#pkgutil">pkgutil</a>
  &#8226;   <a href="#py_compile">py_compile</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#pygame.sysfont">pygame.sysfont</a>
  &#8226;   <a href="#sysconfig">sysconfig</a>
  &#8226;   <a href="#tracemalloc">tracemalloc</a>
@@ -17259,8 +17699,8 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
- &#8226;   <a href="#main.py">main.py</a>
+    <a href="#main.py">main.py</a>
+ &#8226;   <a href="#pickle">pickle</a>
 
   </div>
 
@@ -17321,6 +17761,12 @@ imported by:
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#bdb">bdb</a>
  &#8226;   <a href="#bz2">bz2</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#cgi">cgi</a>
  &#8226;   <a href="#concurrent.futures.process">concurrent.futures.process</a>
  &#8226;   <a href="#concurrent.futures.thread">concurrent.futures.thread</a>
@@ -17459,6 +17905,7 @@ imported by:
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#posixpath">posixpath</a>
  &#8226;   <a href="#py_compile">py_compile</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pygame">pygame</a>
  &#8226;   <a href="#pygame.macosx">pygame.macosx</a>
@@ -17615,8 +18062,7 @@ imported by:
   <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#codecs">codecs</a>
@@ -17625,6 +18071,7 @@ imports:
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -17640,6 +18087,7 @@ imported by:
  &#8226;   <a href="#multiprocessing.reduction">multiprocessing.reduction</a>
  &#8226;   <a href="#numpy.compat.py3k">numpy.compat.py3k</a>
  &#8226;   <a href="#numpy.core">numpy.core</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#setuptools.sandbox">setuptools.sandbox</a>
  &#8226;   <a href="#tracemalloc">tracemalloc</a>
 
@@ -18401,6 +18849,241 @@ imported by:
  &#8226;   <a href="#distutils.util">distutils.util</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#zipfile">zipfile</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/__init__.py" type="text/plain"><tt>pycparser</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#io">io</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.c_ast">pycparser.c_ast</a>
+ &#8226;   <a href="#pycparser.c_parser">pycparser.c_parser</a>
+ &#8226;   <a href="#pycparser.lextab">pycparser.lextab</a>
+ &#8226;   <a href="#pycparser.yacctab">pycparser.yacctab</a>
+ &#8226;   <a href="#subprocess">subprocess</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.ast_transforms">pycparser.ast_transforms</a>
+ &#8226;   <a href="#pycparser.c_ast">pycparser.c_ast</a>
+ &#8226;   <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.c_parser">pycparser.c_parser</a>
+ &#8226;   <a href="#pycparser.lextab">pycparser.lextab</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.plyparser">pycparser.plyparser</a>
+ &#8226;   <a href="#pycparser.yacctab">pycparser.yacctab</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.ast_transforms"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/ast_transforms.py" type="text/plain"><tt>pycparser.ast_transforms</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.c_ast">pycparser.c_ast</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_parser">pycparser.c_parser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.c_ast"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/c_ast.py" type="text/plain"><tt>pycparser.c_ast</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.ast_transforms">pycparser.ast_transforms</a>
+ &#8226;   <a href="#pycparser.c_parser">pycparser.c_parser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.c_lexer"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/c_lexer.py" type="text/plain"><tt>pycparser.c_lexer</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_parser">pycparser.c_parser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.c_parser"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/c_parser.py" type="text/plain"><tt>pycparser.c_parser</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.ast_transforms">pycparser.ast_transforms</a>
+ &#8226;   <a href="#pycparser.c_ast">pycparser.c_ast</a>
+ &#8226;   <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+ &#8226;   <a href="#pycparser.plyparser">pycparser.plyparser</a>
+ &#8226;   <a href="#re">re</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser">pycparser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.lextab"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/lextab.py" type="text/plain"><tt>pycparser.lextab</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.ply"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/ply/__init__.py" type="text/plain"><tt>pycparser.ply</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.c_parser">pycparser.c_parser</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.ply.lex"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/ply/lex.py" type="text/plain"><tt>pycparser.ply.lex</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#copy">copy</a>
+ &#8226;   <a href="#inspect">inspect</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#types">types</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.ply.yacc"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/ply/yacc.py" type="text/plain"><tt>pycparser.ply.yacc</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#base64">base64</a>
+ &#8226;   <a href="#cPickle">cPickle</a>
+ &#8226;   <a href="#inspect">inspect</a>
+ &#8226;   <a href="#ntpath">ntpath</a>
+ &#8226;   <a href="#pickle">pickle</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#re">re</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#types">types</a>
+ &#8226;   <a href="#warnings">warnings</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_parser">pycparser.c_parser</a>
+ &#8226;   <a href="#pycparser.ply">pycparser.ply</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.plyparser"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/plyparser.py" type="text/plain"><tt>pycparser.plyparser</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+ &#8226;   <a href="#warnings">warnings</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#pycparser.c_parser">pycparser.c_parser</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="pycparser.yacctab"></a>
+  <a target="code" href="///C:/users/volin/appdata/local/programs/python/python37-32/lib/site-packages/pycparser/yacctab.py" type="text/plain"><tt>pycparser.yacctab</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#pycparser">pycparser</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
 
   </div>
 
@@ -19517,6 +20200,8 @@ imported by:
  &#8226;   <a href="#_strptime">_strptime</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#base64">base64</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
  &#8226;   <a href="#cgi">cgi</a>
  &#8226;   <a href="#configparser">configparser</a>
  &#8226;   <a href="#ctypes._aix">ctypes._aix</a>
@@ -19606,6 +20291,10 @@ imported by:
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#posixpath">posixpath</a>
  &#8226;   <a href="#pprint">pprint</a>
+ &#8226;   <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.c_parser">pycparser.c_parser</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pyi_rth_multiprocessing.py">pyi_rth_multiprocessing.py</a>
  &#8226;   <a href="#setuptools">setuptools</a>
@@ -19815,7 +20504,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#numpy.distutils.core">numpy.distutils.core</a>
+    <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#numpy.distutils.core">numpy.distutils.core</a>
  &#8226;   <a href="#setuptools">setuptools</a>
  &#8226;   <a href="#setuptools._deprecation_warning">setuptools._deprecation_warning</a>
  &#8226;   <a href="#setuptools._vendor">setuptools._vendor</a>
@@ -21258,6 +21948,7 @@ imported by:
  &#8226;   <a href="#PyInstaller.building.osx">PyInstaller.building.osx</a>
  &#8226;   <a href="#PyInstaller.building.utils">PyInstaller.building.utils</a>
  &#8226;   <a href="#PyInstaller.compat">PyInstaller.compat</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
  &#8226;   <a href="#http.server">http.server</a>
@@ -21443,7 +22134,7 @@ imported by:
 
 <div class="node">
   <a name="src"></a>
-  <a target="code" href="///C:/Users/volin/YandexDisk/Yandexlyceum/02_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BF%D1%80%D0%BE%D0%BC%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20-%20%D0%9419/23_%D0%97%D0%B0%D1%89%D0%B8%D1%82%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%20PyGame/src/__init__.py" type="text/plain"><tt>src</tt></a>
+  <a target="code" href="///C:/Users/volin/Desktop/zulu-doodmaak-master/src/__init__.py" type="text/plain"><tt>src</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#src.core">src.core</a>
@@ -21460,7 +22151,7 @@ imported by:
 
 <div class="node">
   <a name="src.core"></a>
-  <a target="code" href="///C:/Users/volin/YandexDisk/Yandexlyceum/02_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BF%D1%80%D0%BE%D0%BC%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20-%20%D0%9419/23_%D0%97%D0%B0%D1%89%D0%B8%D1%82%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%20PyGame/src/core.py" type="text/plain"><tt>src.core</tt></a>
+  <a target="code" href="///C:/Users/volin/Desktop/zulu-doodmaak-master/src/core.py" type="text/plain"><tt>src.core</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
     <a href="#os">os</a>
@@ -21481,10 +22172,11 @@ imported by:
 
 <div class="node">
   <a name="src.zulu_doodmaak"></a>
-  <a target="code" href="///C:/Users/volin/YandexDisk/Yandexlyceum/02_%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BF%D1%80%D0%BE%D0%BC%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20-%20%D0%9419/23_%D0%97%D0%B0%D1%89%D0%B8%D1%82%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0%20PyGame/src/zulu_doodmaak.py" type="text/plain"><tt>src.zulu_doodmaak</tt></a>
+  <a target="code" href="///C:/Users/volin/Desktop/zulu-doodmaak-master/src/zulu_doodmaak.py" type="text/plain"><tt>src.zulu_doodmaak</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#json">json</a>
+    <a href="#ctypes">ctypes</a>
+ &#8226;   <a href="#json">json</a>
  &#8226;   <a href="#pygame">pygame</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#src">src</a>
@@ -21745,6 +22437,7 @@ imported by:
  &#8226;   <a href="#PyInstaller.utils.hooks">PyInstaller.utils.hooks</a>
  &#8226;   <a href="#PyInstaller.utils.hooks.gi">PyInstaller.utils.hooks.gi</a>
  &#8226;   <a href="#PyInstaller.utils.hooks.qt">PyInstaller.utils.hooks.qt</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
  &#8226;   <a href="#ctypes._aix">ctypes._aix</a>
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#distutils._msvccompiler">distutils._msvccompiler</a>
@@ -21768,6 +22461,7 @@ imported by:
  &#8226;   <a href="#numpy.f2py">numpy.f2py</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#platform">platform</a>
+ &#8226;   <a href="#pycparser">pycparser</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pygame.sysfont">pygame.sysfont</a>
  &#8226;   <a href="#pyi_rth_multiprocessing.py">pyi_rth_multiprocessing.py</a>
@@ -21813,6 +22507,16 @@ imported by:
  &#8226;   <a href="#base64">base64</a>
  &#8226;   <a href="#bdb">bdb</a>
  &#8226;   <a href="#calendar">calendar</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.commontypes">cffi.commontypes</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.ffiplatform">cffi.ffiplatform</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
+ &#8226;   <a href="#cffi.pkgconfig">cffi.pkgconfig</a>
+ &#8226;   <a href="#cffi.recompiler">cffi.recompiler</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
+ &#8226;   <a href="#cffi.verifier">cffi.verifier</a>
  &#8226;   <a href="#cgi">cgi</a>
  &#8226;   <a href="#cmd">cmd</a>
  &#8226;   <a href="#code">code</a>
@@ -21980,6 +22684,10 @@ imported by:
  &#8226;   <a href="#posixpath">posixpath</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#py_compile">py_compile</a>
+ &#8226;   <a href="#pycparser.c_ast">pycparser.c_ast</a>
+ &#8226;   <a href="#pycparser.c_lexer">pycparser.c_lexer</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pygame">pygame</a>
  &#8226;   <a href="#pygame.compat">pygame.compat</a>
@@ -22074,6 +22782,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#PyInstaller.depend.bindepend">PyInstaller.depend.bindepend</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
  &#8226;   <a href="#setuptools.command.bdist_egg">setuptools.command.bdist_egg</a>
  &#8226;   <a href="#setuptools.command.easy_install">setuptools.command.easy_install</a>
@@ -22221,6 +22930,8 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#PyInstaller.loader.pyimod02_archive">PyInstaller.loader.pyimod02_archive</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.lock">cffi.lock</a>
  &#8226;   <a href="#numpy.core.arrayprint">numpy.core.arrayprint</a>
 
   </div>
@@ -22490,6 +23201,9 @@ imports:
 imported by:
     <a href="#PyInstaller.archive.writers">PyInstaller.archive.writers</a>
  &#8226;   <a href="#PyInstaller.utils.win32.icon">PyInstaller.utils.win32.icon</a>
+ &#8226;   <a href="#cffi.api">cffi.api</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.vengine_gen">cffi.vengine_gen</a>
  &#8226;   <a href="#copy">copy</a>
  &#8226;   <a href="#dis">dis</a>
  &#8226;   <a href="#email.headerregistry">email.headerregistry</a>
@@ -22516,6 +23230,8 @@ imported by:
  &#8226;   <a href="#pkg_resources._vendor.six">pkg_resources._vendor.six</a>
  &#8226;   <a href="#pkgutil">pkgutil</a>
  &#8226;   <a href="#pprint">pprint</a>
+ &#8226;   <a href="#pycparser.ply.lex">pycparser.ply.lex</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#runpy">runpy</a>
  &#8226;   <a href="#setuptools._vendor.pyparsing">setuptools._vendor.pyparsing</a>
@@ -23066,6 +23782,9 @@ imported by:
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#base64">base64</a>
  &#8226;   <a href="#bz2">bz2</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
+ &#8226;   <a href="#cffi.vengine_cpy">cffi.vengine_cpy</a>
  &#8226;   <a href="#cgi">cgi</a>
  &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#configparser">configparser</a>
@@ -23150,6 +23869,8 @@ imported by:
  &#8226;   <a href="#pkgutil">pkgutil</a>
  &#8226;   <a href="#platform">platform</a>
  &#8226;   <a href="#plistlib">plistlib</a>
+ &#8226;   <a href="#pycparser.ply.yacc">pycparser.ply.yacc</a>
+ &#8226;   <a href="#pycparser.plyparser">pycparser.plyparser</a>
  &#8226;   <a href="#pydoc">pydoc</a>
  &#8226;   <a href="#pygame">pygame</a>
  &#8226;   <a href="#random">random</a>
@@ -23225,6 +23946,8 @@ imports:
 imported by:
     <a href="#PyInstaller.building.imphook">PyInstaller.building.imphook</a>
  &#8226;   <a href="#_threading_local">_threading_local</a>
+ &#8226;   <a href="#cffi.cparser">cffi.cparser</a>
+ &#8226;   <a href="#cffi.model">cffi.model</a>
  &#8226;   <a href="#concurrent.futures.process">concurrent.futures.process</a>
  &#8226;   <a href="#concurrent.futures.thread">concurrent.futures.thread</a>
  &#8226;   <a href="#copy">copy</a>
